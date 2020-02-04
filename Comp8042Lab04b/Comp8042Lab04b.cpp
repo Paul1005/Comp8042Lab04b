@@ -74,14 +74,27 @@ public:
 		// Check the three cases
 		if ((*p)->left == NULL && (*p)->right == NULL) {
 			// TODO Case 1: Deleting a leaf node
+			*p = NULL;
+			return true;
 		}
 		else if ((*p)->left == NULL || (*p)->right == NULL) {
 			// TODO Case 2: Deleting a node with one child
+			if ((*p)->left == NULL) {
+				*p = (*p)->right;
+				(*p)->right = NULL;
+			}
+			else if ((*p)->right == NULL) {
+				*p = (*p)->left;
+				(*p)->left = NULL;
+			}
+			return true;
 		}
 		else {
 			// TODO Case 3: Deleting a node with two children
+			*p = findMin((*p)->right);
+			erase((*p)->left);
+			return true;
 		}
-		return false;
 	}
 
 	bool empty() {
