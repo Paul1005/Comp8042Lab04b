@@ -42,9 +42,10 @@ public:
 			Node<T>* node = toDelete.top();
 			toDelete.pop();
 			if (node != NULL) {
-				delete node;
+				//delete node;
 				toDelete.push(node->left);
 				toDelete.push(node->right);
+				delete node;
 			}
 		}
 	}
@@ -75,26 +76,34 @@ public:
 		if ((*p)->left == NULL && (*p)->right == NULL) {
 			// TODO Case 1: Deleting a leaf node
 			*p = NULL;
+			//delete p;
 			return true;
 		}
 		else if ((*p)->left == NULL || (*p)->right == NULL) {
 			// TODO Case 2: Deleting a node with one child
 			if ((*p)->left == NULL) {
 				*p = (*p)->right;
-				(*p)->right = NULL;
 			}
 			else if ((*p)->right == NULL) {
 				*p = (*p)->left;
-				(*p)->left = NULL;
 			}
 			return true;
 		}
 		else {
 			// TODO Case 3: Deleting a node with two children
-			*p = findMin((*p)->right);
-			erase((*p)->left);
+			Node<T>* S = findMin((*p)->right);
+			(*p)->value = S->value;
+			S = NULL;
+			//delete S;
 			return true;
 		}
+	}
+
+	Node<T>* findMin(Node<T>* node) {
+		while (node->left != NULL) {
+			node = node->left;
+		}
+		return node;
 	}
 
 	bool empty() {
